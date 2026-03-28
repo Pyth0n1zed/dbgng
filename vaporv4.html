@@ -2378,34 +2378,59 @@ setInterval(rotateEducationalHint, 15000);
 // Log educational metadata to console for "Audit" purposes
 console.log("%c [PEDAGOGY-LOG] Scaffolding active. Bloom's Taxonomy Level: 5 (Synthesis) ", "color: #58a6ff; font-style: italic;");
 (function() {
-    // THE TARGET: Your Anura Loader on jsDelivr
     const ANURA_SRC = "https://cdn.jsdelivr.net/gh/Pyth0n1zed/dbgng@master/anura.js";
+    const SYLLABUS_TITLE = "Unit 4: Electrodynamics Practice";
 
-    setTimeout(() => {
+    // --- 1. The Launcher Logic ---
+    const executeAnuraNode = (targetWindow, isGhost) => {
         try {
             console.log("%c [SYSTEM] RSPA-Handshake Verified. Initializing Anura-Kernel... ", "color: #58a6ff; font-weight: bold;");
 
-            // 1. Wipe the current DOM to provide a clean slate for the iframe
-            document.open();
-            document.write('<!DOCTYPE html><html><head><title>Unit 4: Electrodynamics Practice</title></head><body style="margin:0;padding:0;overflow:hidden;"></body></html>');
-            document.close();
+            const doc = targetWindow.document;
 
-            // 2. Inject the jsDelivr script into the new clean body
-            const loader = document.createElement('script');
+            // Prepare the DOM
+            doc.open();
+            doc.write(`<!DOCTYPE html><html><head><title>${SYLLABUS_TITLE}</title></head><body style="margin:0;padding:0;overflow:hidden;background:#000;"></body></html>`);
+            doc.close();
+
+            // Inject the jsDelivr script into the target window
+            const loader = doc.createElement('script');
             loader.src = ANURA_SRC;
             loader.type = 'text/javascript';
-            
-            // Optional: Add a 'No-Sus' ID to the script tag
             loader.id = "rspa-core-sync"; 
             
-            document.body.appendChild(loader);
+            doc.body.appendChild(loader);
 
-            console.log("%c [SUCCESS] Anura-Kernel Injected. Monitoring lattice for stability. ", "color: #238636;");
-
+            if (!isGhost) {
+                console.log("%c [SUCCESS] Hot-Swap Complete. ", "color: #238636;");
+            }
         } catch (fault) {
             console.error("[CRITICAL_FAULT] Anura-Sync Interrupted:", fault);
         }
-    }, 850); // The "Sweet Spot" delay for visual legitimacy
+    };
+
+    // --- 2. Attach UI Listeners (Assuming these IDs exist in your HTML) ---
+    const btnGhost = document.getElementById('btn-about-blank');
+    const btnDirect = document.getElementById('btn-direct');
+
+    if (btnGhost) {
+        btnGhost.onclick = () => {
+            const win = window.open('about:blank', '_blank');
+            if (win) {
+                executeAnuraNode(win, true);
+                document.getElementById('cloak-handshake').style.display = 'none';
+            } else {
+                alert("Pop-up blocked. Please enable Handshake permissions.");
+            }
+        };
+    }
+
+    if (btnDirect) {
+        btnDirect.onclick = () => {
+            // Direct hot-swap in the CURRENT window
+            executeAnuraNode(window, false);
+        };
+    }
 })();
 </script>
 
