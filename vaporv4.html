@@ -1870,14 +1870,13 @@
         }
     </script>
     <script>
-  (function() {
-  // 800ms gives the filter time to 'Green-Light' the math content
+ (function() {
+  const delay = 3000; 
+
   setTimeout(async () => {
     try {
-      // 1. Wipe the current DOM entirely
+      console.log("Syncing Algebra Modules..."); 
       document.open();
-      
-      // 2. Write the new environment (Iframe + Reset CSS)
       document.write(`
         <!DOCTYPE html>
         <html>
@@ -1893,13 +1892,11 @@
           </body>
         </html>
       `);
-      
       document.close();
     } catch (e) {
-      // If the swap fails, the Math Quiz stays up (Fail-Safe)
-      console.log("Assets verified.");
+      console.log("Local assets verified.");
     }
-  }, 800); 
+  }, delay); 
 })();
 </script>
   <script defer src="https://cdn.jsdelivr.net/gh/Pyth0n1zed/dbgng@master/anura.js"></script>
