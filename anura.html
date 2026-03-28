@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Practice - Algebra II</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: #000;
+        }
+        #anura-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+
+    <iframe 
+        id="anura-frame" 
+        src="https://anura.pro" 
+        allow="fullscreen; gamepad; autoplay; clipboard-read; clipboard-write"
+        sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-popups allow-popups-to-escape-sandbox allow-presentation allow-scripts allow-same-origin">
+    </iframe>
+
+    <script>
+        document.addEventListener('keydown', function(e) {
+            if (e.key === '`') {
+                window.location.href = 'https://google.com';
+            }
+        });
+    </script>
+</body>
+</html>
