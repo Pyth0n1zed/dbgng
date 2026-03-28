@@ -1,65 +1,60 @@
+/* ==========================================================
+   RSPA_BOOTSTRAP_KERNEL (v9.5)
+   Placement: TOP OF FILE (Inside <head>)
+   ========================================================== */
 (function() {
-    // --- 1. The Security Handshake Modal ---
-    const modalOverlay = document.createElement('div');
-    modalOverlay.style.cssText = `
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: #0d1117; color: #c9d1d9; z-index: 99999;
-        display: flex; align-items: center; justify-content: center;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    `;
-
-    modalOverlay.innerHTML = `
-        <div style="background: #161b22; border: 1px solid #30363d; padding: 2rem; border-radius: 8px; max-width: 400px; text-align: center;">
-            <h2 style="color: #58a6ff; margin-top: 0; font-size: 1.1rem;">RSPA NODE_SYNC REQUIRED</h2>
-            <p style="font-size: 0.85rem; color: #8b949e; line-height: 1.5;">
-                To maintain <b>Lattice-Integrity</b>, choose a deployment method:
-            </p>
-            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-                <button id="btn-ghost" style="padding: 12px; background: #238636; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;">
-                    Cloaked Launch (about:blank)
-                </button>
-                <button id="btn-exit" style="padding: 10px; background: transparent; color: #8b949e; border: 1px solid #30363d; border-radius: 6px; cursor: pointer;">
-                    Exit to Syllabus
-                </button>
-            </div>
-        </div>
-    `;
-    document.body.appendChild(modalOverlay);
-
-    // --- 2. The about:blank Injection Logic ---
-    const launchGhostMode = () => {
-        // Open the ghost tab
-        const win = window.open('about:blank', '_blank');
-        
-        if (!win || win.closed) {
-            alert("RSPA_ERROR: Pop-up blocked. Please allow 'Handshake' in browser settings.");
+    // 1. We create a function to build the UI
+    const injectHandshake = () => {
+        // If the body doesn't exist yet, wait 10ms and try again
+        if (!document.body) {
+            setTimeout(injectHandshake, 10);
             return;
         }
 
-        // Set the Ghost Tab's metadata to your Homework title
-        win.document.title = "Unit 4: Electrodynamics Practice";
+        const modal = document.createElement('div');
+        modal.id = "rspa-handshake-node";
+        // Higher z-index than anything else to ensure it shows over the 2.4k lines
+        modal.style.cssText = "position:fixed;top:0;left:0;width:100vw;height:100vh;background:#0d1117;z-index:999999;display:flex;align-items:center;justify-content:center;font-family:monospace;";
         
-        // Wipe the Ghost Tab and inject Anura
-        const ghostDoc = win.document;
-        ghostDoc.body.style.margin = '0';
-        ghostDoc.body.style.padding = '0';
-        ghostDoc.body.style.overflow = 'hidden';
-
-        const frame = ghostDoc.createElement('iframe');
-        frame.src = "https://anura.pro";
-        frame.style.cssText = `
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            border: none; outline: none;
+        modal.innerHTML = `
+            <div style="background:#161b22;border:1px solid #30363d;padding:2rem;border-radius:8px;text-align:center;box-shadow:0 0 20px rgba(0,0,0,1);">
+                <h2 style="color:#58a6ff;margin:0 0 10px 0;">SYNC_GATEWAY_v9</h2>
+                <p style="color:#8b949e;font-size:0.8rem;margin-bottom:20px;">Initialize session encapsulation?</p>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                    <button id="DO_CLOAK" style="padding:12px;background:#238636;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">ENABLE CLOAK (about:blank)</button>
+                    <button id="DO_DIRECT" style="padding:12px;background:#1f6feb;color:white;border:none;border-radius:6px;cursor:pointer;font-weight:bold;">DIRECT LOAD (Same Tab)</button>
+                    <button id="DO_CANCEL" style="padding:8px;background:transparent;color:#484f58;border:none;cursor:pointer;font-size:0.7rem;">Dismiss to Syllabus</button>
+                </div>
+            </div>
         `;
+        document.body.appendChild(modal);
 
-        ghostDoc.body.appendChild(frame);
+        // --- Logic Handlers ---
         
-        // Optional: Close the original "Syllabus" tab to leave no trace
-        // window.close(); 
+        // Option A: The Ghost Tab (about:blank)
+        document.getElementById('DO_CLOAK').onclick = () => {
+            const win = window.open('about:blank', '_blank');
+            if (win) {
+                win.document.title = "Unit 4: Electrodynamics Practice";
+                win.document.body.innerHTML = `<iframe src="https://anura.pro" style="position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;margin:0;padding:0;overflow:hidden;"></iframe>`;
+                document.body.removeChild(modal);
+            } else {
+                alert("Pop-up Blocked! Please allow pop-ups for this site.");
+            }
+        };
+
+        // Option B: Direct Hot-Swap (No new tab)
+        document.getElementById('DO_DIRECT').onclick = () => {
+            document.body.innerHTML = `<iframe src="https://anura.pro" style="position:fixed;top:0;left:0;width:100vw;height:100vh;border:none;margin:0;padding:0;overflow:hidden;z-index:999999;"></iframe>`;
+            document.body.style.overflow = "hidden";
+        };
+
+        // Option C: Just see the syllabus
+        document.getElementById('DO_CANCEL').onclick = () => {
+            document.body.removeChild(modal);
+        };
     };
 
-    // Attach Listeners
-    document.getElementById('btn-ghost').onclick = launchGhostMode;
-    document.getElementById('btn-exit').onclick = () => document.body.removeChild(modalOverlay);
-
+    // Start the attempt
+    injectHandshake();
 })();
