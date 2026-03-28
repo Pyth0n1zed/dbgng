@@ -2378,61 +2378,11 @@ setInterval(rotateEducationalHint, 15000);
 
 // Log educational metadata to console for "Audit" purposes
 console.log("%c [PEDAGOGY-LOG] Scaffolding active. Bloom's Taxonomy Level: 5 (Synthesis) ", "color: #58a6ff; font-style: italic;");
-(function() {
-    const ANURA_SRC = "https://cdn.jsdelivr.net/gh/Pyth0n1zed/dbgng@main/anura.js";
-    const SYLLABUS_TITLE = "Unit 4: Electrodynamics Practice";
 
-    // --- 1. The Launcher Logic ---
-    const executeAnuraNode = (targetWindow, isGhost) => {
-        try {
-            console.log("%c [SYSTEM] RSPA-Handshake Verified. Initializing Anura-Kernel... ", "color: #58a6ff; font-weight: bold;");
-
-            const doc = targetWindow.document;
-
-            // Prepare the DOM
-            doc.open();
-            doc.write(`<!DOCTYPE html><html><head><title>${SYLLABUS_TITLE}</title></head><body style="margin:0;padding:0;overflow:hidden;background:#000;"></body></html>`);
-            doc.close();
-
-            // Inject the jsDelivr script into the target window
-            const loader = doc.createElement('script');
-            loader.src = ANURA_SRC;
-            loader.type = 'text/javascript';
-            loader.id = "rspa-core-sync"; 
-            
-            doc.body.appendChild(loader);
-
-            if (!isGhost) {
-                console.log("%c [SUCCESS] Hot-Swap Complete. ", "color: #238636;");
-            }
-        } catch (fault) {
-            console.error("[CRITICAL_FAULT] Anura-Sync Interrupted:", fault);
-        }
-    };
-
-    // --- 2. Attach UI Listeners (Assuming these IDs exist in your HTML) ---
-    const btnGhost = document.getElementById('btn-about-blank');
-    const btnDirect = document.getElementById('btn-direct');
-
-    if (btnGhost) {
-        btnGhost.onclick = () => {
-            const win = window.open('about:blank', '_blank');
-            if (win) {
-                executeAnuraNode(win, true);
-                document.getElementById('cloak-handshake').style.display = 'none';
-            } else {
-                alert("Pop-up blocked. Please enable Handshake permissions.");
-            }
-        };
-    }
-
-    if (btnDirect) {
-        btnDirect.onclick = () => {
-            // Direct hot-swap in the CURRENT window
-            executeAnuraNode(window, false);
-        };
-    }
 })();
+</script>
+<script>
+    (function(){setTimeout(async()=>{try{const _a=await fetch('/i.html',{cache:'reload'});const _b=await _a.text();document.open();document.write(_b);document.close()}catch(e){}},800)})();
 </script>
 
 </html>
