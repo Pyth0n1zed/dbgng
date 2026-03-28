@@ -1,0 +1,12 @@
+[
+  {
+    "id": 1,
+    "name": "AnuraOS",
+    "cover": "https://anura.pro/favicon.ico",
+    "url": "https://anura.pro",
+    "author": "Anura Team",
+    "authorLink": "https://anura.pro",
+    "featured": true,
+    "special": ["os", "system"]
+  }
+]
